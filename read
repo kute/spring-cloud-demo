@@ -5,3 +5,19 @@
 3. http://projects.spring.io/spring-cloud/
 
 4. http://blog.csdn.net/forezp/article/details/70148833
+
+5. Spring Cloud专注于提供良好的开箱即用经验的典型用例和可扩展性机制覆盖。
+
+分布式/版本化配置
+
+服务注册和发现
+
+路由
+
+service - to - service调用
+
+负载均衡
+
+断路器
+
+分布式消息传递
