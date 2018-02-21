@@ -1,0 +1,25 @@
+1. 访问配置 匹配规则如下
+
+/{application}/{profile}[/{label}]
+/{application}-{profile}.yml
+/{label}/{application}-{profile}.yml
+/{application}-{profile}.properties
+/{label}/{application}-{profile}.properties
+
+其中
+application: spring.config.name指定，默认 application
+profile: dev  test  prod
+label: git label, 默认  master
+
+
+http://localhost:8888/application/test/master
+http://localhost:8888/application-test.yml
+http://localhost:8888/master/application-test.yml
+http://localhost:8888/application-test.properties
+http://localhost:8888/master/application-test.properties
+
+http://localhost:8888/application/test/mirror
+http://localhost:8888/application-test.yml
+http://localhost:8888/mirror/application-test.yml
+http://localhost:8888/application-test.properties
+http://localhost:8888/mirror/application-test.properties

@@ -9,4 +9,13 @@ spring:
     config:
       server:
         git:
-          uri:
+          uri: https://github.com/kute/spring-cloud-config
+          search-paths: config
+#          username: kute
+#          password:
+        default-label: master
+        default-application-name: application
+#     branch for pull operation
+      label: master
+
+
