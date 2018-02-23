@@ -1,0 +1,13 @@
+server:
+  port: 7777
+spring:
+  application:
+    name: spring-cloud-config-client
+  config:
+    name: application
+  cloud:
+    config:
+      enabled: true
+      label: master
+      profile: prod
+      uri: http://localhost:8888

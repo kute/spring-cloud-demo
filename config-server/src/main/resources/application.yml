@@ -2,6 +2,7 @@
 
 server:
   port: 8888
+
 spring:
   application:
     name: spring-cloud-config-server
@@ -11,11 +12,16 @@ spring:
         git:
           uri: https://github.com/kute/spring-cloud-config
           search-paths: config
+#          force-pull make Spring Cloud Config Server force pull from remote repository if the local copy is dirty.
+          force-pull: true
 #          username: kute
 #          password:
         default-label: master
         default-application-name: application
+        default-profile: prod
 #     branch for pull operation
       label: master
+      enabled: true
+      profile: prod
 
 
