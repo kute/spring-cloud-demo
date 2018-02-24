@@ -1,0 +1,20 @@
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: localhost
+    app-group-name: spring-cloud-eureka-server-group
+    appname: spring-cloud-eureka-server.01
+#    metadata-map:
+#      instanceId: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+  client:
+#  register-with-eureka: false 和 fetch-registry: false 表明自己是 eureka server
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+
+spring:
+  application:
+    name: spring-cloud-eureka-server

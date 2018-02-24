@@ -1,0 +1,22 @@
+server:
+  port: 8763
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#   每隔 30s 从 server 拉取 注册信息
+    registry-fetch-interval-seconds: 30
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    appname: spring-cloud-eureka-client.02
+    app-group-name: spring-cloud-eureka-client-group
+    hostname: localhost
+    home-page-url: http://${eureka.instance.hostname}
+    metadata-map:
+      instanceId: ${spring.application.name}:${eureka.instance.app-group-name}:${eureka.instance.appname}:${eureka.instance.hostname}:${server.port}
+
+# 用于注册实例时的名称
+spring:
+  application:
+    name: spring-cloud-eureka-client.02

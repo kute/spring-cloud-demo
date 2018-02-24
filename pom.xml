@@ -6,7 +6,6 @@
 	<groupId>com.kute</groupId>
 	<artifactId>spring-cloud-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
 
 	<name>spring-cloud-demo</name>
 	<description>Demo project for Spring Boot</description>
@@ -72,7 +71,7 @@
 			</snapshots>
 		</repository>
 		<repository>
-			<id>spring-milestones</id>
+			<id>milestones</id>
 			<name>Spring Milestones</name>
 			<url>https://repo.spring.io/milestone</url>
 			<snapshots>

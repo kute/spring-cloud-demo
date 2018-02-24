@@ -22,4 +22,6 @@ service - to - service调用
 
 分布式消息传递
 
+Service Discovery (Eureka), Circuit Breaker (Hystrix), Intelligent Routing (Zuul) and Client Side Load Balancing (Ribbon)
+
 6. https://github.com/spring-cloud-samples
