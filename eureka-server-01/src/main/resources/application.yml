@@ -1,10 +1,10 @@
 server:
-  port: 8761
+  port: ${PORT:8761}
 eureka:
   instance:
     hostname: localhost
-    app-group-name: spring-cloud-eureka-server-group
-    appname: spring-cloud-eureka-server.01
+    appname: spring-cloud-eureka-server-instance-01
+    app-group-name: spring-cloud-eureka-server-instance-group
 #    metadata-map:
 #      instanceId: ${spring.application.name}:${spring.application.instance_id:${server.port}}
   client:
@@ -13,8 +13,11 @@ eureka:
     fetch-registry: false
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-
+  server:
+#   定期扫描所有注册的服务是否可用（是否发起续约renew)的间隔时间
+    eviction-interval-timer-in-ms: 60000
+    renewal-percent-threshold: 0.85
 
 spring:
   application:
-    name: spring-cloud-eureka-server
+    name: spring-cloud-eureka-server-application

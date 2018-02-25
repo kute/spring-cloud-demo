@@ -1,0 +1,27 @@
+1. 在 eureka server 启动后，然后再  client-intance-01 启动后，访问如下
+
+http://localhost:8763/api/v1/get-service-from-client-01/kute
+
+该 服务 获取 instance-01 的服务，注意 host 使用的是 instance-1的 spring.applicatioin.name
+
+返回如下：
+
+  {
+      "service-info": {
+          "serviceName": "spring-cloud-eureka-client-instance.02",
+          "version": 1,
+          "desc": "client-instance.02-服务简介"
+      },
+      "get-service-from-client.01": {
+          "service-info": {
+              "serviceName": "spring-cloud-eureka-client-instance.01",
+              "version": 1,
+              "desc": "client-instance.01-服务简介"
+          },
+          "user": {
+              "id": "10001",
+              "userName": "kute",
+              "age": 18
+          }
+      }
+  }

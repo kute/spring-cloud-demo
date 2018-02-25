@@ -9,14 +9,15 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
   instance:
-    appname: spring-cloud-eureka-client.02
-    app-group-name: spring-cloud-eureka-client-group
+#   用于注册实例时的名称
+    appname: spring-cloud-eureka-client-instance-02
+    app-group-name: spring-cloud-eureka-client-instance-group
     hostname: localhost
-    home-page-url: http://${eureka.instance.hostname}
     metadata-map:
       instanceId: ${spring.application.name}:${eureka.instance.app-group-name}:${eureka.instance.appname}:${eureka.instance.hostname}:${server.port}
+#    实例名称显示Ip配置
+    prefer-ip-address: true
 
-# 用于注册实例时的名称
 spring:
   application:
-    name: spring-cloud-eureka-client.02
+    name: spring-cloud-eureka-client-02-application
