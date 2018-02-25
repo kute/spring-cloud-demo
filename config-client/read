@@ -1,5 +1,17 @@
 1. after start `ConfigClientApplication` then visit
 
-http://localhost:8888/env
+http://localhost:7777/api/v1/getConfig
+
+返回如下：
+
+ {
+     "currentUser": "kute-prod",
+     "currentLabel": "master",
+     "currentFileName": "application-prod.properties"
+ }
+
+ 当 配置发生变化时，需要客户端主动刷新：
+
+ curl -X POST http://localhost:7777/refresh
 
 2.
