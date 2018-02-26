@@ -27,3 +27,18 @@ http://localhost:8888/spring-cloud-config-server-test.yml
 http://localhost:8888/mirror/spring-cloud-config-server-test.yml
 http://localhost:8888/spring-cloud-config-server-test.properties
 http://localhost:8888/mirror/spring-cloud-config-server-test.properties
+
+
+2. config server 高可用
+
+将 config server 在 eureka server 注册为 服务， 启动多个 config server（改变端口等），查看 eureka server console是否注册成功，
+
+停掉其中一个 config server，测试 config client 是否还可以 获取到 配置
+
+http://www.ityouknow.com/springcloud/2017/05/25/springcloud-config-eureka.html
+
+本例操作如下：
+
+先启动 EurekaServer01Application 注册中心，然后 启动 ConfigServer01Application  ConfigServer02Application ,启动了2个
+config server，然后 启动 ConfigClientApplication， 访问 http://localhost:7777/api/v1/getConfig 查看返回数据；
+然后停掉 config server 中任一，重新访问 http://localhost:7777/api/v1/getConfig 测试

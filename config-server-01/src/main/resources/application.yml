@@ -1,0 +1,45 @@
+# spring cloud config server
+server:
+  port: 8888
+
+spring:
+  application:
+    name: spring-cloud-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/kute/spring-cloud-config
+          search-paths: config
+#          force-pull make Spring Cloud Config Server force pull from remote repository if the local copy is dirty.
+          force-pull: true
+#          username: kute
+#          password:
+        default-label: master
+        default-application-name: spring-cloud-config-server
+        default-profile: prod
+#     branch for pull operation
+      label: master
+      profile: prod
+      enabled: true
+
+
+# spring cloud eureka
+# 将 config server 在eureka server 也注册为服务
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#   每隔 30s 从 server 拉取 注册信息
+    registry-fetch-interval-seconds: 30
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+#   用于注册实例时的名称, 高可用（多个config server)要保持一致
+    appname: spring-cloud-config-server-instance
+    app-group-name: spring-cloud-config-server-instance-group
+    hostname: localhost
+    metadata-map:
+      instanceId: ${spring.application.name}:${eureka.instance.app-group-name}:${eureka.instance.appname}:${eureka.instance.hostname}:${server.port}
+#    实例名称显示Ip配置
+    prefer-ip-address: true

@@ -10,4 +10,28 @@ spring:
       enabled: true
       label: master
       profile: prod
-      uri: http://localhost:8888
+      discovery:
+        enabled: true
+#        指定 config server的name，即 spring.application.name
+        service-id: spring-cloud-config-server
+#      spring cloud config 高可用，将 spring.cloud.config.uri 注释掉
+#      uri: http://localhost:8888
+
+# 将 config client 在eureka server 注册为服务
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#   每隔 30s 从 server 拉取 注册信息
+    registry-fetch-interval-seconds: 30
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+#   用于注册实例时的名称
+    appname: spring-cloud-eureka-client-instance
+    app-group-name: spring-cloud-eureka-client-instance-group
+    hostname: localhost
+    metadata-map:
+      instanceId: ${spring.application.name}:${eureka.instance.app-group-name}:${eureka.instance.appname}:${eureka.instance.hostname}:${server.port}
+#    实例名称显示Ip配置
+    prefer-ip-address: true

@@ -44,13 +44,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-        <!-- config server 集成 eureka server -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-            <!-- spring-cloud-starter-eureka-server is deprecated as of Spring Cloud Netflix 1.4.0 -->
-            <!--<artifactId>spring-cloud-starter-eureka-server</artifactId>-->
-        </dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<!-- spring-cloud-starter-eureka is deprecated as of Spring Cloud Netflix 1.4.0 -->
+			<!--<artifactId>spring-cloud-starter-eureka</artifactId>-->
+		</dependency>
 
         <!-- end starter -->
 

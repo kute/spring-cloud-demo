@@ -11,6 +11,9 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * http://localhost:8761/
+ */
 @RestController
 @EnableEurekaServer
 @SpringBootApplication
