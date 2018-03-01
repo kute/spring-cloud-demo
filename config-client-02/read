@@ -12,6 +12,10 @@ http://localhost:7777/api/v1/getConfig
 
  当 配置发生变化时，需要客户端主动刷新：
 
+ @RefreshScope 给需要加载 配置的类 上加上此注解，客户端在访问 POST /refresh 时会刷新加有此注解的配置， 此为 手动更新
+
  curl -X POST http://localhost:7777/refresh
 
-2.
+2. webhook
+
+http://www.ityouknow.com/springcloud/2017/05/23/springcloud-config-svn-refresh.html

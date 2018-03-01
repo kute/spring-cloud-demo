@@ -1,7 +1,6 @@
 package com.kute.configclient;
 
 import com.kute.config.ConfigSerivce;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @ComponentScan(basePackageClasses = ConfigSerivce.class)
 @RestController
 @SpringBootApplication
-public class ConfigClientApplication {
+public class ConfigClient01Application {
 
     @GetMapping("/")
     public String home() {
@@ -21,7 +20,7 @@ public class ConfigClientApplication {
     }
 
 	public static void main(String[] args) {
-		SpringApplication.run(ConfigClientApplication.class, args);
+		SpringApplication.run(ConfigClient01Application.class, args);
 	}
 
 }

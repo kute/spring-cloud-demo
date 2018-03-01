@@ -1,0 +1,35 @@
+1. after start `ConfigClientApplication` then visit
+
+http://localhost:7777/api/v1/getConfig
+
+返回如下：
+
+ {
+     "currentUser": "kute-prod",
+     "currentLabel": "master",
+     "currentFileName": "application-prod.properties"
+ }
+
+ 当 配置发生变化时，需要客户端主动刷新：
+
+ @RefreshScope 给需要加载 配置的类 上加上此注解，客户端在访问 POST /refresh 时会刷新加有此注解的配置， 此为 手动更新
+
+ curl -X POST http://localhost:7777/refresh
+
+2. webhook
+
+http://www.ityouknow.com/springcloud/2017/05/23/springcloud-config-svn-refresh.html
+
+3. spring cloud bus
+
+分别启动 eureka-server-01, config-server-01, config-client-01, config-client-02，
+然后测试 client-01和client-02访问配置是否正确
+
+client-01: http://localhost:7777/api/v1/getConfig
+client-02: http://localhost:7778/api/v1/getConfig
+
+然后更改配置 current.user
+
+触发 refresh
+curl -d 'destination=*' http://localhost:8888/bus/refresh
+curl -X POST 'http://localhost:8888/bus/refresh?destination=**'

@@ -7,6 +7,8 @@
 	<artifactId>spring-cloud-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+    <packaging>pom</packaging>
+
 	<name>spring-cloud-demo</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -16,6 +18,17 @@
 		<version>1.5.10.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
+	<modules>
+		<module>config-client-01</module>
+		<module>config-client-02</module>
+		<module>config-server-01</module>
+		<module>config-server-02</module>
+		<module>eureka-client-01</module>
+		<module>eureka-client-02</module>
+		<module>eureka-server-01</module>
+		<module>eureka-server-02</module>
+	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
