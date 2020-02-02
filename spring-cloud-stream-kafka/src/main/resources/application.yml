@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: spring-cloud-stream-kafka
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ['bindings']
+  health:
+    binders:
+      enabled: true

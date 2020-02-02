@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: spring-cloud-function
+  functional:
+    # 是否启用 spring cloud function 注册，默认 true
+    # @see org.springframework.cloud.function.context.config.ContextFunctionCatalogInitializer
+    # 注意，若这里配置为true，则需要添加依赖 ,移步  FunctionEndpointInitializer
+    enabled: false
+  cloud:
+    function:
+      scan:
+        enabled: true
+        # default pakcage: functions
+        # @see org.springframework.cloud.function.context.config.ContextFunctionCatalogAutoConfiguration.PlainFunctionScanConfiguration
+        packages: com.kute.springcloudfunction.functions
+      web:
+        # 访问 spring cloud function的 root path
+        path: /function
+  main:
+    # default reactive for spring cloud function
+    web-application-type: servlet
+
+
+server:
+  port: 8080
+
+

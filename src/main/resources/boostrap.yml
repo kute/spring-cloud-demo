@@ -1,5 +1,0 @@
-# 引导上下文：主程序的父上下文，负责加载外部资源对配置文件
-
-spring:
-    application:
-        name: spring-cloud-demo

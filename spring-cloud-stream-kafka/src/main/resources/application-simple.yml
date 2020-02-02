@@ -1,0 +1,109 @@
+spring:
+  application:
+    name: spring-cloud-stream-kafka
+  cloud:
+    stream:
+      kafka:
+        # 对所有的bindings公用的配置
+        default:
+          consumer:
+            autoCommitOffset: true
+            # earliest or latest
+            startOffset: earliest
+            max:
+              poll:
+                records: 100
+            fetch:
+              max:
+                wait:
+                  ms: 1000
+        # 配置kafka binder
+        # @see org.springframework.cloud.stream.binder.kafka.properties.KafkaBinderConfigurationProperties
+        binder:
+          # brokers允许不带port，不带时 使用 defaultBrokerPort 属性
+          brokers: ['localhost:9092']
+          default-broker-port: 9092
+          auto-create-topics: true
+          health-timeout: 60 # seconds
+          # 所有客户端producer和consumer公用的属性配置，未知属性将会被过滤
+          configuration:
+            ck1: cv1
+          producerProperties:
+            # 会覆盖configuration配置的属性
+            pk1: pv1
+          consumerProperties:
+            # 会覆盖configuration配置的属性
+            cck1: ccv1
+          requiredAcks: 1
+          replicationFactor: 1
+      bindings:
+        simpleConsumer-in-0:
+          # @see org.springframework.cloud.stream.config.BindingProperties
+          destination: test-topic
+          group: cloud-strema-kafka-group
+          # 当有多个binder时（kafka, rabbit）需要指定
+          binder: kafka1
+          # default application/json
+          contentType: application/json
+          consumer:
+            # @see org.springframework.cloud.stream.binder.ConsumerProperties
+            autoStartup: true
+            concurrency: 3
+            # 包括第一次的重试次数，即 若值为1，失败不允许重试
+            maxAttempts: 5
+            backOffInitialInterval: 2000
+            batchMode: true
+            # 若在消费者中出现的异常 不在 retryableExceptions 配置列表中则进行重试
+            default-retryable: true
+            retryableExceptions:
+              java.lang.NullPointerException: true
+        streamListenerProcessMessage-in-0:
+          destination: test-topic
+          group: cloud-strema-kafka-group2
+        stringSupplier-out-0:
+          destination: test-topic2
+        stringReactiveSupplier-out-0:
+          destination: test-topic2
+          producer:
+            autoStartup: true
+            partitionCount: 3
+            # @see com.kute.springcloudstreamkafka.config.CustomPartitionKeyExtractor
+            partitionKeyExtractorName: customPartitionKeyExtractor
+            # @see com.kute.springcloudstreamkafka.config.CustomPartitionSelectorStrategy
+            partitionSelectorName: customPartitionSelectorStrategy
+
+      # 有多个binder时在这里配置
+      binders:
+        # @see org.springframework.cloud.stream.config.BinderProperties
+        kafka1:
+          # META-INF/spring.binders文件中的key
+          type: kafka
+          environment:
+            key1: value1
+
+    # 当应用程序中有一个 function时，无需指定 definition，有多个时必须指定
+    function:
+      # stringSupplier 生产者产生的消息 将向 test-topic2 发送，若有 消费者监听此 test-topic2 则会收到对应的消息
+      #      definition: stringSupplier
+      # stringSupplier 生产者产生的消息 将向 消费者 simpleConsumer 发送，其他消费者不会收到任何消息
+      #      definition: stringSupplier|simpleConsumer
+      # 消费其他生产者在 test-topic 产生的消息
+      #      definition: simpleConsumer
+      definition: stringReactiveSupplier;simpleConsumer
+
+#      function:
+#        bindings:
+#          simpleConsumer-in-0: simple-function-alias
+
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    binders:
+      enabled: true

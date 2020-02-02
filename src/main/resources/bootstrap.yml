@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    config:
+      uri: http://localhost:9090
+      label: dev
+      profile: test
+      name: pure-cloud-config
+      enabled: false
+
+  profiles:
+    active: dev

@@ -1,0 +1,135 @@
+current:
+  environment:
+    active: test
+
+spring:
+  application:
+    name: spring-cloud-stream-kafka
+  cloud:
+    stream:
+      kafka:
+        # 对所有的bindings公用的配置
+        default:
+          consumer:
+            autoCommitOffset: true
+            # earliest or latest
+            startOffset: latest
+            maxAttempts: 5
+        # 配置kafka binder
+        # @see org.springframework.cloud.stream.binder.kafka.properties.KafkaBinderConfigurationProperties
+        binder:
+          # brokers允许不带port，不带时 使用 defaultBrokerPort 属性
+          brokers: ['localhost:9092']
+          default-broker-port: 9092
+          auto-create-topics: true
+          autoAddPartitions: true
+          minPartitionCount: 3
+          health-timeout: 60 # seconds
+          # 所有客户端producer和consumer公用的属性配置，未知属性将会被过滤
+          configuration:
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+#            key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#            value.serializer: org.apache.kafka.common.serialization.StringSerializer
+#            value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+          # consumerProperties：配置一些其他的属性，具体见 org.apache.kafka.clients.consumer.ConsumerConfig
+          consumerProperties:
+            # 会覆盖configuration配置的属性
+            enable.auto.commit: true
+          producerProperties:
+            value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+          requiredAcks: 1
+          replicationFactor: 1
+      bindings:
+        simpleFunction-in-0:
+          # @see org.springframework.cloud.stream.config.BindingProperties
+          destination: test-topic
+          group: cloud-strema-kafka-group
+          # 当有多个binder时（kafka, rabbit）需要指定
+          binder: kafka
+          # default application/json
+          contentType: application/json
+          # @see org.springframework.cloud.stream.binder.ConsumerProperties
+          consumer:
+            autoStartup: true
+            concurrency: 3
+            # 包括第一次的重试次数，即 若值为1，失败不允许重试
+            maxAttempts: 1
+            multiplex: true
+            partitioned: true
+            backOffInitialInterval: 2000
+            batchMode: false
+            # 若在消费者中出现的异常 不在 retryableExceptions 配置列表中则进行重试
+            default-retryable: true
+            retryableExceptions:
+              java.lang.NullPointerException: true
+        simpleConsumer-in-0:
+          destination: test-topic
+          group: cloud-strema-kafka-group2
+        simpleFunctionsimpleConsumer-in-0:
+          destination: test-topic
+          group: cloud-strema-kafka-group3
+        simpleFunctionConsumer:
+          destination: test-topic
+          group: cloud-strema-kafka-group4
+          consumer:
+            autoStartup: true
+            concurrency: 3
+            # 包括第一次的重试次数，即 若值为1，失败不允许重试
+            maxAttempts: 5
+        simpleSupplierFunctionConsumer:
+          destination: test-topic
+          group: cloud-strema-kafka-group4
+          consumer:
+            autoStartup: true
+            concurrency: 3
+            # 包括第一次的重试次数，即 若值为1，失败不允许重试
+            maxAttempts: 5
+          producer:
+            autoStartup: true
+            partitionCount: 3
+            partitionKeyExtractorName: customPartitionKeyExtractor
+            partitionSelectorName: customPartitionSelectorStrategy
+            errorChannelEnabled: true
+
+        # 测试 不同的topic以及 value序列化
+        simpleCommentFunction-in-0:
+          destination: test-topic
+          group: cloud-strema-kafka-group5
+        simpleCommentFunction-out-0:
+          destination: test-topic2
+          producer:
+            useNativeEncoding: true
+
+      function:
+        # 当只有单个 function时，无需定义 definition，最好定义
+#        definition: simpleConsumer
+        definition: simpleCommentFunction
+
+        # 当有需要组合多个function时，使用 '|' 连接，连接后的 bindingName是：simpleFunctionConsumer-in-0，可以起个别名，如下
+        # 测试 只有消费者（function, consumer）
+#        definition: simpleFunction|simpleConsumer
+
+        # 当有需要组合多个function时，使用 '|' 连接，连接后的 bindingName是：simpleSuppliersimpleFunctionsimpleConsumer-in-0，可以起个别名，如下
+        # 测试 有生产者消费者（supplier, function, consumer）
+        # 默认 supplier<T> 中的 T 是普通类型时：每秒调用一次，如果T 是Flux响应式的时 只在启动时调用一次
+#        definition: simpleSupplier|simpleFunction|simpleConsumer
+
+        # 测试 value序列化，以及 不同的bindings
+#        definition: simpleCommentFunction
+
+        bindings:
+          # 起个别名，可读
+          simpleFunctionsimpleConsumer-in-0: simpleFunctionConsumer
+          simpleSuppliersimpleFunctionsimpleConsumer-in-0: simpleSupplierFunctionConsumer
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    binders:
+      enabled: true
