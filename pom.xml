@@ -25,6 +25,7 @@
 		<module>spring-cloud-netflix</module>
         <module>spring-cloud-function</module>
         <module>spring-cloud-stream-kafka</module>
+		<module>spring-cloud-openfeign</module>
 	</modules>
 
 	<properties>

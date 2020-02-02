@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-cloud-openfeign
+
+
+kute:
+  feign:
+    app:
+      name: appService
+
+# https://cloud.spring.io/spring-cloud-openfeign/reference/html/appendix.html
+feign:
+  httpclient:
+    enabled: true
+  client:
+    config:
+      # feign 全局配置，对所有 feign client生效
+      # @see org.springframework.cloud.openfeign.FeignClientProperties.FeignClientConfiguration
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        # @see feign.Logger.Level
+        # NONE, No logging (DEFAULT).
+        # BASIC, Log only the request method and URL and the response status code and execution time
+        # HEADERS, Log the basic information along with request and response headers
+        # FULL, Log the headers, body, and metadata for both requests and responses
+        loggerLevel: FULL
+        retryer: feign.Retryer.Default
+        requestInterceptors:
+          - com.kute.springcloudopenfeign.feigh.config.interceptor.MyRequestInterceptor
+        # 发生http 404时，解析404而不抛出异常
+        decode404: true
+        errorDecoder: com.kute.springcloudopenfeign.feigh.config.decoder.IllegalArgumentExceptionOn404Decoder
+      # 其他config
+      config1:
+        connectTimeout: 5000
+        readTimeout: 5000
+    default-config: default
+    # 表示优先使用 配置文件中的配置，即 可以覆盖 自定义的配置
+    default-to-properties: true
+  compression:
+    request:
+      enabled: true
+      mime-types: mime-types=text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+      useGzipDecoder: true
